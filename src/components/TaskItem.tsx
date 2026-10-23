@@ -3,7 +3,7 @@ import { actions, colorBg, type Subject, type Task } from "@/lib/store";
 
 const prio = { alta: "bg-berry", media: "bg-sun", baixa: "bg-teal" };
 
-export function TaskItem({ task, subject }: { task: Task; subject?: Subject }) {
+export function TaskItem({ task, subject }: { task: Task; subject?: Subject | undefined }) {
   return (
     <li className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card p-3 animate-pop">
       <button aria-label="Concluir tarefa" onClick={() => actions.toggleTask(task.id)}
