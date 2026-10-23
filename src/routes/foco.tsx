@@ -73,7 +73,7 @@ function Foco() {
                 strokeWidth="6" strokeLinecap="round" strokeDasharray={283} strokeDashoffset={283 - 283 * pct} />
             </svg>
             <div className="absolute inset-0 grid place-items-center">
-              <span className="font-display text-7xl md:text-8xl font-extrabold tabular-nums">{mm}:{ss}</span>
+              <span className="font-display text-6xl md:text-7xl font-extrabold tabular-nums">{mm}:{ss}</span>
             </div>
           </div>
           <div className="flex gap-4 mt-8">
@@ -84,7 +84,7 @@ function Foco() {
           </div>
         </section>
 
-        <section className="card-pop p-6">
+        <section className="card-pop p-6 self-start">
           <h2 className="text-2xl font-bold">Sua semana</h2>
           <p className="text-muted-foreground mb-6">Hoje: <b className="text-foreground">{focus[today()] ?? 0} min</b> de foco</p>
           <div className="flex items-end justify-between gap-2 h-48">
