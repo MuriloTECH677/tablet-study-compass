@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as FocoRouteImport } from './routes/foco'
+import { Route as MateriasRouteImport } from './routes/materias'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocoRoute = FocoRouteImport.update({
+  id: '/foco',
+  path: '/foco',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MateriasRoute = MateriasRouteImport.update({
+  id: '/materias',
+  path: '/materias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/foco': typeof FocoRoute
+  '/materias': typeof MateriasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/foco': typeof FocoRoute
+  '/materias': typeof MateriasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/foco': typeof FocoRoute
+  '/materias': typeof MateriasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/agenda' | '/foco' | '/materias'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/agenda' | '/foco' | '/materias'
+  id: '__root__' | '/' | '/agenda' | '/foco' | '/materias'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgendaRoute: typeof AgendaRoute
+  FocoRoute: typeof FocoRoute
+  MateriasRoute: typeof MateriasRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/foco': {
+      id: '/foco'
+      path: '/foco'
+      fullPath: '/foco'
+      preLoaderRoute: typeof FocoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materias': {
+      id: '/materias'
+      path: '/materias'
+      fullPath: '/materias'
+      preLoaderRoute: typeof MateriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgendaRoute: AgendaRoute,
+  FocoRoute: FocoRoute,
+  MateriasRoute: MateriasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
