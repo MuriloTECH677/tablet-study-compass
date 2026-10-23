@@ -33,7 +33,7 @@ function Agenda() {
     <AppShell title="Agenda" subtitle="Toque em um dia para ver e planejar.">
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => setOffset(offset - 1)} className="btn-pop rounded-xl bg-card p-3" aria-label="Semana anterior"><ChevronLeft /></button>
-        <p className="font-display text-xl font-bold capitalize">{days[0].toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}</p>
+        <p className="font-display text-xl font-bold capitalize">{base.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}</p>
         <button onClick={() => setOffset(offset + 1)} className="btn-pop rounded-xl bg-card p-3" aria-label="Próxima semana"><ChevronRight /></button>
       </div>
       <div className="grid grid-cols-7 gap-2 mb-6">
