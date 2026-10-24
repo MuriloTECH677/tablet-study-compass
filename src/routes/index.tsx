@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Flame, Target, Timer, Trophy } from "lucide-react";
+import { Flame, Target, Timer, Trophy, AlertCircle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { AddTask } from "@/components/AddTask";
 import { TaskItem } from "@/components/TaskItem";
 import { today, useStore } from "@/lib/store";
+import { weeklyTasks, shiftDate } from "@/lib/planning";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,6 +14,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Organize suas tarefas, matérias e tempo de estudo em um só lugar." },
       { property: "og:title", content: "Foco — Painel de estudos" },
       { property: "og:description", content: "Organize suas tarefas, matérias e tempo de estudo em um só lugar." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -30,11 +34,13 @@ function Index() {
   const pct = todays.length ? Math.round((done / todays.length) * 100) : 0;
   let streak = 0;
   for (let i = 0; i < 365; i++) {
-    const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+    const d = shiftDate(t, -i);
     if ((focus[d] ?? 0) > 0) streak++; else if (i > 0) break;
   }
   const upcoming = tasks.filter((x) => x.date > t && !x.done).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
   const sub = (id: string) => subjects.find((s) => s.id === id);
+  const overdue = tasks.filter((task) => !task.done && task.date < t);
+  const week = weeklyTasks(tasks);
 
   return (
     <AppShell title={`${greeting()}! 👋`} subtitle="Bora organizar os estudos de hoje?">
@@ -97,6 +103,8 @@ function Index() {
           </div>
         </section>
       </div>
+      {overdue.length > 0 && <section className="mt-8 space-y-3"><div className="flex flex-wrap justify-between gap-3 items-center"><h2 className="text-2xl font-bold flex gap-2 items-center"><AlertCircle className="text-destructive" />Tarefas atrasadas</h2><Button variant="outline" asChild><Link to="/tarefas">Ver todas</Link></Button></div><ul className="space-y-2">{overdue.slice(0, 3).map((task) => <TaskItem key={task.id} task={task} subject={sub(task.subjectId)} />)}</ul></section>}
+      <section className="mt-8"><div className="flex flex-wrap justify-between items-center gap-3 mb-4"><h2 className="text-2xl font-bold flex items-center gap-2"><Target className="text-teal" />Metas da semana</h2><Button variant="ghost" asChild><Link to="/materias">Ver matérias</Link></Button></div><div className="grid sm:grid-cols-2 gap-4">{subjects.map((subject) => { const completed = week.filter((task) => task.subjectId === subject.id && task.done).length; return <div key={subject.id} className="border-b-2 border-border pb-4"><div className="flex justify-between gap-3 font-semibold mb-2"><span className="break-words">{subject.name}</span><span className="shrink-0">{completed}/{subject.goal}</span></div><progress aria-label={`Meta semanal de ${subject.name}`} value={Math.min(completed, subject.goal)} max={subject.goal} className="w-full h-3" /></div>; })}</div></section>
     </AppShell>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { actions, today, useStore, type Task } from "@/lib/store";
+import { Button } from "@/components/ui/button";
 
 export function AddTask({ date }: { date?: string }) {
   const { subjects } = useStore();
@@ -17,18 +18,18 @@ export function AddTask({ date }: { date?: string }) {
         actions.addTask({ title: title.trim(), subjectId: subjectId || subjects[0]?.id || "", priority, date: date ?? d });
         setTitle("");
       }}>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="O que você vai estudar?"
+      <input required aria-label="Nova tarefa" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="O que você vai estudar?"
         className="min-w-0 flex-[2_1_220px] rounded-xl bg-secondary px-4 py-3 text-base outline-none focus:ring-2 ring-ring" />
-      <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)} className="flex-1 rounded-xl bg-secondary px-3 py-3">
+      <select aria-label="Matéria" value={subjectId || subjects[0]?.id || ""} onChange={(e) => setSubjectId(e.target.value)} className="min-w-0 flex-1 rounded-xl bg-secondary px-3 py-3">
         {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
       </select>
-      <select value={priority} onChange={(e) => setPriority(e.target.value as Task["priority"])} className="rounded-xl bg-secondary px-3 py-3">
+      <select aria-label="Prioridade" value={priority} onChange={(e) => setPriority(e.target.value as Task["priority"])} className="rounded-xl bg-secondary px-3 py-3">
         <option value="alta">Alta</option><option value="media">Média</option><option value="baixa">Baixa</option>
       </select>
-      {!date && <input type="date" value={d} onChange={(e) => setD(e.target.value)} className="rounded-xl bg-secondary px-3 py-3" />}
-      <button className="btn-pop flex items-center gap-1 rounded-xl bg-primary px-5 py-3 font-bold text-primary-foreground">
+      {!date && <input required aria-label="Data da nova tarefa" type="date" value={d} onChange={(e) => setD(e.target.value)} className="min-w-0 rounded-xl bg-secondary px-3 py-3" />}
+      <Button type="submit" className="btn-pop h-12 flex items-center gap-1 rounded-xl bg-primary px-5 py-3 font-bold text-primary-foreground">
         <Plus className="size-5" /> Adicionar
-      </button>
+      </Button>
     </form>
   );
 }
