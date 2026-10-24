@@ -1,0 +1,3 @@
+- [ ] Add searchable task library with status, subject and priority filters.
+- [ ] Add task editing, rescheduling, duplication and scheduled reviews.
+- [ ] Show accurate weekly goals and overdue tasks; verify full workflows.
