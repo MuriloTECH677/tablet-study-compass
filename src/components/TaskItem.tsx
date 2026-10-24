@@ -27,7 +27,7 @@ export function TaskItem({ task, subject }: { task: Task; subject?: Subject | un
           <span>{new Date(task.date + "T12:00").toLocaleDateString("pt-BR")}</span>
         </div>
       </div>
-      <div className="flex gap-1 ml-auto">
+      <div className="flex w-full sm:w-auto justify-end gap-1 ml-auto">
       <Button variant="ghost" size="icon" className="size-11" title="Editar ou reagendar" aria-label="Editar ou reagendar" onClick={() => { setEditing(!editing); setReviewing(false); }}><Pencil /></Button>
       <Button variant="ghost" size="icon" className="size-11" title="Duplicar tarefa" aria-label="Duplicar tarefa" onClick={() => { actions.addTask({ title: task.title, subjectId: task.subjectId, date: task.date, priority: task.priority }); setNotice("Tarefa duplicada."); }}><Copy /></Button>
       <Button variant="ghost" size="icon" className="size-11" title="Agendar revisão" aria-label="Agendar revisão" onClick={() => { setReviewing(!reviewing); setEditing(false); }}><RotateCcw /></Button>

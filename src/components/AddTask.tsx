@@ -20,7 +20,7 @@ export function AddTask({ date }: { date?: string }) {
       }}>
       <input required aria-label="Nova tarefa" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="O que você vai estudar?"
         className="min-w-0 flex-[2_1_220px] rounded-xl bg-secondary px-4 py-3 text-base outline-none focus:ring-2 ring-ring" />
-      <select aria-label="Matéria" value={subjectId || subjects[0]?.id || ""} onChange={(e) => setSubjectId(e.target.value)} className="min-w-0 flex-1 rounded-xl bg-secondary px-3 py-3">
+      <select aria-label="Matéria" value={subjectId || subjects[0]?.id || ""} onChange={(e) => setSubjectId(e.target.value)} className="min-w-0 flex-[1_1_160px] rounded-xl bg-secondary px-3 py-3">
         {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
       </select>
       <select aria-label="Prioridade" value={priority} onChange={(e) => setPriority(e.target.value as Task["priority"])} className="rounded-xl bg-secondary px-3 py-3">
