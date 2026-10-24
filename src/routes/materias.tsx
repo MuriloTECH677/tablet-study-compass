@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { actions, COLORS, colorBg, useStore } from "@/lib/store";
+import { weeklyTasks } from "@/lib/planning";
 
 export const Route = createFileRoute("/materias")({
   head: () => ({
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/materias")({
       { name: "description", content: "Gerencie suas matérias e acompanhe o progresso de cada uma." },
       { property: "og:title", content: "Matérias — Foco" },
       { property: "og:description", content: "Gerencie suas matérias e acompanhe o progresso de cada uma." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Materias,
@@ -43,7 +46,7 @@ function Materias() {
 
       <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {subjects.map((s, i) => {
-          const ts = tasks.filter((t) => t.subjectId === s.id);
+          const ts = weeklyTasks(tasks).filter((t) => t.subjectId === s.id);
           const done = ts.filter((t) => t.done).length;
           const pct = Math.min(100, Math.round((done / s.goal) * 100));
           return (
@@ -54,7 +57,7 @@ function Materias() {
               </div>
               <div className="p-4">
                 <div className="flex justify-between text-sm font-semibold mb-2">
-                  <span>{done} / {s.goal} concluídas</span><span>{pct}%</span>
+                  <span>{done} / {s.goal} nesta semana</span><span>{pct}%</span>
                 </div>
                 <div className="h-4 rounded-full bg-secondary border-2 border-ink overflow-hidden">
                   <div className={`${colorBg[s.color]} h-full transition-all duration-700`} style={{ width: `${pct}%` }} />

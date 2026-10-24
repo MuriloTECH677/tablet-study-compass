@@ -11,6 +11,8 @@ export const Route = createFileRoute("/foco")({
       { name: "description", content: "Cronômetro Pomodoro para estudar com concentração e pausas." },
       { property: "og:title", content: "Modo foco (Pomodoro) — Foco" },
       { property: "og:description", content: "Cronômetro Pomodoro para estudar com concentração e pausas." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Foco,

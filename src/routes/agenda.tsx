@@ -5,6 +5,7 @@ import { AppShell } from "@/components/AppShell";
 import { AddTask } from "@/components/AddTask";
 import { TaskItem } from "@/components/TaskItem";
 import { colorBg, today, useStore } from "@/lib/store";
+import { dateKey } from "@/lib/planning";
 
 export const Route = createFileRoute("/agenda")({
   head: () => ({
@@ -13,12 +14,14 @@ export const Route = createFileRoute("/agenda")({
       { name: "description", content: "Planeje sua semana de estudos dia a dia." },
       { property: "og:title", content: "Agenda semanal — Foco" },
       { property: "og:description", content: "Planeje sua semana de estudos dia a dia." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Agenda,
 });
 
-const iso = (d: Date) => d.toISOString().slice(0, 10);
+const iso = dateKey;
 
 function Agenda() {
   const { tasks, subjects } = useStore();

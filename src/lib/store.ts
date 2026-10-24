@@ -1,11 +1,12 @@
 import { useSyncExternalStore } from "react";
+import { dateKey } from "./planning";
 
 export type Subject = { id: string; name: string; color: string; goal: number };
 export type Task = { id: string; title: string; subjectId: string; date: string; done: boolean; priority: "alta" | "media" | "baixa" };
 export type State = { subjects: Subject[]; tasks: Task[]; focus: Record<string, number> };
 
 export const COLORS = ["primary", "teal", "sun", "berry", "sky", "ink"] as const;
-export const today = () => new Date().toISOString().slice(0, 10);
+export const today = () => dateKey(new Date());
 const uid = () => Math.random().toString(36).slice(2, 10);
 
 const KEY = "foco-planner-v1";
@@ -53,6 +54,7 @@ export function useStore() {
 
 export const actions = {
   addTask: (t: Omit<Task, "id" | "done">) => set((s) => ({ ...s, tasks: [...s.tasks, { ...t, id: uid(), done: false }] })),
+  updateTask: (id: string, patch: Partial<Omit<Task, "id">>) => set((s) => ({ ...s, tasks: s.tasks.map((task) => task.id === id ? { ...task, ...patch } : task) })),
   toggleTask: (id: string) => set((s) => ({ ...s, tasks: s.tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)) })),
   removeTask: (id: string) => set((s) => ({ ...s, tasks: s.tasks.filter((t) => t.id !== id) })),
   addSubject: (name: string, color: string, goal: number) => set((s) => ({ ...s, subjects: [...s.subjects, { id: uid(), name, color, goal }] })),
